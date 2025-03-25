@@ -6,10 +6,13 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { FileModule } from './file/file.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST || 'localhost',
@@ -23,6 +26,7 @@ import { FileModule } from './file/file.module';
     AuthModule,
     UsersModule,
     FileModule,
+    CategoriesModule,
   ],
 
   controllers: [AppController],

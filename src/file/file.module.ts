@@ -8,10 +8,11 @@ import { FileEntity } from './file.entity';
 import { FileService } from './file.service';
 import { FileController } from './file.controller';
 import { User } from '../users/user.entity';
+import { CategoryEntity } from 'src/categories/categories.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([FileEntity, User]),
+    TypeOrmModule.forFeature([FileEntity, User, CategoryEntity]),
     MulterModule.register({
       storage: diskStorage({
         destination: './uploads',
