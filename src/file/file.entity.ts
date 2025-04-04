@@ -16,16 +16,16 @@ export class FileEntity {
   @Column({ nullable: true })
   filename: string;
 
-  @Column()
+  @Column({ nullable: true })
   url: string;
 
-  @Column()
+  @Column({ nullable: true })
   author: string;
 
-  @Column()
+  @Column({ nullable: true })
   type: string;
 
-  @Column()
+  @Column({ nullable: true })
   coverPage: string;
 
   @CreateDateColumn()
