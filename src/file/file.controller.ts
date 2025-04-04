@@ -7,6 +7,9 @@ import {
   UploadedFile,
   UseInterceptors,
   Body,
+  Query,
+  Patch,
+  // Delete,
   // Req,
   // UseGuards,
 } from '@nestjs/common';
@@ -49,26 +52,54 @@ export class FileController {
   uploadFile(
     @UploadedFile() file: Multer.File,
     @Body() body,
+    @Query('cover') cover?: boolean,
     // @Req() req: Request,
   ) {
-    console.log(file);
-    console.log(body);
-    body.file = file;
-    return this.fileService.saveFile(body);
+    if (cover) {
+      console.log(file);
+      console.log(body);
+      body.file = file;
+      return this.fileService.addImage(body);
+    } else {
+      body.file = file;
+      return this.fileService.saveFile(body);
+    }
+
     // {
     //   message: 'File uploaded successfully!',
     //   filePath: `/uploads/${file.filename}`,
     // };
   }
 
-  @Get()
-  getAllCategories() {
-    return this.fileService.getAllFiles();
+  @Get('/one')
+  async getDocument(@Query('id') id: number) {
+    return this.fileService.findOne(id);
+  }
+
+  @Patch()
+  updateCategory(@Body() body) {
+    console.log(body);
+    return this.fileService.editFile(body);
   }
 
   @Get(':filename')
   async getFile(@Param('filename') filename: string, @Res() res: Response) {
     const filePath = await this.fileService.getFilePath(filename);
     return res.sendFile(filePath);
+  }
+
+  @Get()
+  async getPaginatedItems(
+    @Query('page') page: number,
+    @Query('limit') limit: number = 10,
+    @Query('name') name?: string,
+    @Query('status') status?: string,
+    @Query('category') category?: number,
+  ) {
+    return this.fileService.findAll(Number(page), Number(limit), {
+      name,
+      status,
+      category,
+    });
   }
 }

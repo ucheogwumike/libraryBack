@@ -25,8 +25,17 @@ export class FileEntity {
   @Column()
   type: string;
 
+  @Column()
+  coverPage: string;
+
   @CreateDateColumn()
   createdAt: Date;
+
+  @CreateDateColumn()
+  updatedAt: Date;
+
+  @Column({ default: 'uploaded' })
+  status: string;
 
   @ManyToOne(() => User, (user) => user.files, { onDelete: 'CASCADE' })
   user: User;
